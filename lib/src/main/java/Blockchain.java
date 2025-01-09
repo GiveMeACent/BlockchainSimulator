@@ -1,5 +1,20 @@
 public interface Blockchain {
-  void getTransaction();
+  String registerNode(Node node);
 
-  void getSmartContract();
+  Node getNode(String nodeAddress);
+
+  String registerSmartContract(SmartContract smartContract);
+
+  SmartContract getSmartContract(String smartContractAddress);
+
+  void invokeSmartContract(String smartContractAddress);
+
+  void getConsensus();
+
+  void proposeBlock(Block block);
+
+  boolean addTransaction(Transaction transaction);
+
+  Transaction getTransaction(String transactionAddress);
+
 }
