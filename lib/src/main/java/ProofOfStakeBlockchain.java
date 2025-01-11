@@ -38,19 +38,7 @@ public class ProofOfStakeBlockchain implements Blockchain {
   }
 
   @Override
-  public void invokeSmartContract(String smartContractAddress) {
-  }
-
-  @Override
-  public void getConsensus() {
-  }
-
-  @Override
-  public void proposeBlock(Block block) {
-  }
-
-  @Override
-  public boolean addTransaction(Transaction transaction) {
+  public boolean registerTransaction(Transaction transaction) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'addTransaction'");
   }
@@ -59,6 +47,27 @@ public class ProofOfStakeBlockchain implements Blockchain {
   public Transaction getTransaction(String transactionAddress) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'getTransaction'");
+  }
+
+  @Override
+  public void executeSmartContract() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'executeSmartContract'");
+  }
+
+  @Override
+  public void selectNextValidator() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'chooseNodeValidator'");
+  }
+
+  @Override
+  public void getConsensus() {
+  }
+
+  private void delegateSmartContractExecution() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'delegateSmartContractExecution'");
   }
 
 }

@@ -2,7 +2,7 @@ public class SimpleNode extends Node {
 
   public SimpleNode() {
     super();
-    this.setValidatorStatus(false);
+    this.setValidator(false);
   }
 
   @Override
@@ -11,21 +11,12 @@ public class SimpleNode extends Node {
   }
 
   @Override
-  public Integer getStakeValue() {
-    return 0;
-  }
-
-  @Override
-  public void validateTransaction(Transaction transaction) {
-  }
-
-  @Override
   public void penalize(Integer amount) {
     return;
   }
 
   @Override
-  void sendResultToBlockchain(Block block) {
+  protected void sendResultToBlockchain(Block block) {
     return;
   }
 

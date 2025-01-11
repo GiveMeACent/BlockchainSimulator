@@ -7,14 +7,13 @@ public interface Blockchain {
 
   SmartContract getSmartContract(String smartContractAddress);
 
-  void invokeSmartContract(String smartContractAddress);
-
-  void getConsensus();
-
-  void proposeBlock(Block block);
-
-  boolean addTransaction(Transaction transaction);
+  boolean registerTransaction(Transaction transaction);
 
   Transaction getTransaction(String transactionAddress);
 
+  void executeSmartContract();
+
+  void selectNextValidator();
+
+  void getConsensus();
 }

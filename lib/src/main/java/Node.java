@@ -10,13 +10,22 @@ public abstract class Node {
 
   public void joinBlockchain(Blockchain blockchain) {
     this.blockchain = blockchain;
+    blockchain.registerNode(this);
   }
 
-  public boolean getValidatorStatus() {
+  public void setBalance(Integer amount) {
+    this.balance = amount;
+  }
+
+  public Integer getBalance() {
+    return this.balance;
+  }
+
+  public boolean getValidator() {
     return this.isValidator;
   }
 
-  protected void setValidatorStatus(boolean status) {
+  protected void setValidator(boolean status) {
     this.isValidator = status;
   }
 
@@ -25,15 +34,13 @@ public abstract class Node {
   }
 
   Integer getStakeValue() {
-    return stake;
+    return this.stake;
   }
 
-  abstract void penalize(Integer amount);
+  abstract public void penalize(Integer amount);
 
-  abstract void validateTransaction(Transaction transaction);
+  abstract public void executeSmartContract(SmartContract contract);
 
-  abstract void executeSmartContract(SmartContract contract);
-
-  abstract void sendResultToBlockchain(Block block);
+  abstract protected void sendResultToBlockchain(Block block);
 
 }
