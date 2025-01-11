@@ -9,11 +9,8 @@ public interface Blockchain {
 
   boolean registerTransaction(Transaction transaction);
 
-  Transaction getTransaction(String transactionAddress);
+  Transaction[] getTransactions(Integer blockNumber);
 
   void executeSmartContract();
 
-  void selectNextValidator();
-
-  void getConsensus();
 }

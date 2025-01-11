@@ -1,11 +1,9 @@
 public abstract class Node {
   protected Blockchain blockchain;
-  protected Integer stake;
   protected Integer balance;
   protected Boolean isValidator;
 
   public Node() {
-    this.stake = 0;
   }
 
   public void joinBlockchain(Blockchain blockchain) {
@@ -29,18 +27,16 @@ public abstract class Node {
     this.isValidator = status;
   }
 
-  public void putStake(Integer amount) {
-    this.stake = amount;
-  }
+  abstract public void putStake(Integer amount);
 
-  Integer getStakeValue() {
-    return this.stake;
-  }
+  abstract public Integer getStakeValue();
+
+  abstract public void reward(Integer amount);
 
   abstract public void penalize(Integer amount);
 
   abstract public void executeSmartContract(SmartContract contract);
 
-  abstract protected void sendResultToBlockchain(Block block);
+  abstract protected boolean validateTransaction(Transaction transaction);
 
 }

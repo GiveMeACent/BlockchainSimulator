@@ -1,3 +1,4 @@
+
 public interface Transaction {
   String getId();
 
@@ -5,13 +6,16 @@ public interface Transaction {
 
   String getRecipientAddress();
 
-  Integer setFee();
+  Integer getAmountTransferred();
+
+  Integer getFee();
 
   String getTimeStamp();
 
-  Object getEvents();
+  TransactionType getType();
+
+  void linkSmartContract(SmartContract contract);
 
   SmartContract getLinkedSmartContract();
 
-  void linkSmartContract(SmartContract contract);
 }

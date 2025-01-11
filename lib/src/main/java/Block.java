@@ -7,12 +7,16 @@ public class Block {
   private LocalDate timestamp;
   private String hash;
   private Integer height;
+  private Integer currentSize;
+
+  public static final Integer BLOCK_SIZE = 30;
 
   public Block(String previousHashBlock, Integer height) {
     this.previousBlockHash = previousHashBlock;
-    this.transactions = new HashMap<String, Transaction>();
+    this.transactions = new HashMap<String, Transaction>(Block.BLOCK_SIZE);
     this.timestamp = LocalDate.now();
     this.height = height;
+    this.currentSize = 0;
   }
 
   public void calculateHash() {
@@ -35,6 +39,10 @@ public class Block {
     return transactions.get(transactionId);
   }
 
+  public Transaction[] getAllTransactions() {
+    return (Transaction[]) this.transactions.values().toArray();
+  }
+
   public String[] getAllTransactionIds() {
     return (String[]) transactions.keySet().toArray();
   }
@@ -43,9 +51,14 @@ public class Block {
     return this.height;
   }
 
+  public Integer getCurrentSize() {
+    return this.currentSize;
+  }
+
   public String addTransaction(Transaction transaction) {
     String transactionAddress = HashUtils.generateRandomAddress();
     this.transactions.put(transactionAddress, transaction);
+    this.currentSize += 1;
     return transactionAddress;
   }
 

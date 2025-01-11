@@ -39,14 +39,23 @@ public class ProofOfStakeBlockchain implements Blockchain {
 
   @Override
   public boolean registerTransaction(Transaction transaction) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'addTransaction'");
+    if (!this.getConsesus(transaction))
+      return false;
+
+    Block lastBlock = blocks.get(blocks.size() - 1);
+
+    if (lastBlock != null && blocks.get(blocks.size() - 1).getCurrentSize() < 30)
+      blocks.get(blocks.size() - 1).addTransaction(transaction);
+
+    else
+      blocks.add(new Block(lastBlock.getHash(), blocks.size() + 1));
+
+    return true;
   }
 
   @Override
-  public Transaction getTransaction(String transactionAddress) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getTransaction'");
+  public Transaction[] getTransactions(Integer blockNumber) {
+    return this.blocks.get(blockNumber).getAllTransactions();
   }
 
   @Override
@@ -55,14 +64,50 @@ public class ProofOfStakeBlockchain implements Blockchain {
     throw new UnsupportedOperationException("Unimplemented method 'executeSmartContract'");
   }
 
-  @Override
-  public void selectNextValidator() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'chooseNodeValidator'");
+  private Node selectNextValidator() {
+    Node[] participantNodes = (Node[]) nodesAddresses.values().toArray();
+    int maxStake = 0;
+    int maxStakeNodeIndex = 0;
+
+    for (int i = 0; i < participantNodes.length; i++) {
+      if (participantNodes[i].getValidator() && participantNodes[i].getStakeValue() > maxStake) {
+        maxStake = participantNodes[i].getStakeValue();
+        maxStakeNodeIndex = i;
+      }
+    }
+
+    return participantNodes[maxStakeNodeIndex];
   }
 
-  @Override
-  public void getConsensus() {
+  private boolean getConsesus(Transaction transaction) {
+    Node validatorNode = this.selectNextValidator();
+    boolean resultFromSelectedNode = validatorNode.validateTransaction(transaction);
+
+    Node[] participantNodes = (Node[]) nodesAddresses.values().toArray();
+    List<Boolean> resultsFromValidatorNodes = new ArrayList<Boolean>();
+    Integer trueResults = 0;
+
+    for (int i = 0; i < participantNodes.length; i++) {
+      if (participantNodes[i].getValidator() && !participantNodes[i].equals(validatorNode)) {
+        if (resultsFromValidatorNodes.add(participantNodes[i].validateTransaction(transaction))) {
+          trueResults += 1;
+        }
+      }
+    }
+
+    if (trueResults >= participantNodes.length / 2 + 1) {
+      if (resultFromSelectedNode)
+        validatorNode.reward(10);
+      else
+        validatorNode.penalize(30);
+      return true;
+    } else {
+      if (!resultFromSelectedNode)
+        validatorNode.reward(10);
+      else
+        validatorNode.penalize(30);
+      return false;
+    }
   }
 
   private void delegateSmartContractExecution() {
