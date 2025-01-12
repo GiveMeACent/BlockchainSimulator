@@ -1,5 +1,5 @@
 public interface SmartContract {
-  void setParties(Node party);
+  void setParties(Node[] parties);
 
   Node[] getParties();
 
@@ -9,7 +9,7 @@ public interface SmartContract {
 
   boolean validate();
 
-  void deploy();
+  void deploy(Blockchain blockchain);
 
   void verifyConditions();
 

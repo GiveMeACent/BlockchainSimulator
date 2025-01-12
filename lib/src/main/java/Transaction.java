@@ -1,4 +1,3 @@
-
 public interface Transaction {
   String getId();
 
@@ -18,4 +17,5 @@ public interface Transaction {
 
   SmartContract getLinkedSmartContract();
 
+  void apply(Blockchain blockchain);
 }

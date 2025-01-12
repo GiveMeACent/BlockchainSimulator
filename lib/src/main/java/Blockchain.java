@@ -12,5 +12,4 @@ public interface Blockchain {
   Transaction[] getTransactions(Integer blockNumber);
 
   void executeSmartContract();
-
 }

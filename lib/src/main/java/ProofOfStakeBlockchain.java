@@ -48,12 +48,16 @@ public class ProofOfStakeBlockchain implements Blockchain {
 
     Block lastBlock = blocks.get(blocks.size() - 1);
 
+    transaction.apply(this);
+
     if (lastBlock != null && blocks.get(blocks.size() - 1).getCurrentSize() < Block.BLOCK_SIZE)
       blocks.get(blocks.size() - 1).addTransaction(transaction);
 
     else {
       lastBlock.calculateHash();
-      blocks.add(new Block(lastBlock.getHash(), blocks.size() + 1));
+      Block newBlock = new Block(lastBlock.getHash(), blocks.size() + 1);
+      newBlock.addTransaction(transaction);
+      blocks.add(newBlock);
     }
 
     return true;
@@ -103,15 +107,15 @@ public class ProofOfStakeBlockchain implements Blockchain {
 
     if (trueResults >= participantNodes.length / 2 + 1) {
       if (resultFromSelectedNode)
-        validatorNode.reward(10);
+        validatorNode.reward(transaction.getFee());
       else
-        validatorNode.penalize(30);
+        validatorNode.penalize(transaction.getFee());
       return true;
     } else {
       if (!resultFromSelectedNode)
-        validatorNode.reward(10);
+        validatorNode.reward(transaction.getFee());
       else
-        validatorNode.penalize(30);
+        validatorNode.penalize(transaction.getFee());
       return false;
     }
   }

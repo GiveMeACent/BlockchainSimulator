@@ -7,7 +7,7 @@ public class MonetaryTransaction implements Transaction {
   private String recipientAddress;
   private Integer amountTransferred;
   private Integer fee;
-  private LocalDate date;
+  private String timestamp;
   private TransactionType type;
 
   public MonetaryTransaction(String id, String senderAddress, String recipientAddress, Integer amountTransferred,
@@ -17,7 +17,6 @@ public class MonetaryTransaction implements Transaction {
     this.recipientAddress = recipientAddress;
     this.amountTransferred = amountTransferred;
     this.fee = fee;
-    this.date = LocalDate.now();
     this.type = TransactionType.MONETARY;
   }
 
@@ -48,7 +47,7 @@ public class MonetaryTransaction implements Transaction {
 
   @Override
   public String getTimeStamp() {
-    return this.date.toString();
+    return this.timestamp;
   }
 
   @Override
@@ -66,4 +65,13 @@ public class MonetaryTransaction implements Transaction {
     return null;
   }
 
+  @Override
+  public void apply(Blockchain blockchain) {
+    Node senderNode = blockchain.getNode(this.senderAddress);
+    Node recipientNode = blockchain.getNode(this.recipientAddress);
+
+    senderNode.setBalance(senderNode.getBalance() - this.amountTransferred - this.fee);
+    recipientNode.setBalance(recipientNode.getBalance() + this.amountTransferred);
+    this.timestamp = LocalDate.now().toString();
+  }
 }

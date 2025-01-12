@@ -43,8 +43,8 @@ public class ValidatorNode extends Node {
         return false;
 
       return true;
-
     }
+
     return false;
   }
 
