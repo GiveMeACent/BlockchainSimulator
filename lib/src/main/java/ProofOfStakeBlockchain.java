@@ -42,6 +42,10 @@ public class ProofOfStakeBlockchain implements Blockchain {
     if (!this.getConsesus(transaction))
       return false;
 
+    if (blocks.isEmpty()) {
+      blocks.add(new Block("GENESIS_HASH", 1));
+    }
+
     Block lastBlock = blocks.get(blocks.size() - 1);
 
     if (lastBlock != null && blocks.get(blocks.size() - 1).getCurrentSize() < 30)
@@ -65,7 +69,7 @@ public class ProofOfStakeBlockchain implements Blockchain {
   }
 
   private Node selectNextValidator() {
-    Node[] participantNodes = (Node[]) nodesAddresses.values().toArray();
+    Node[] participantNodes = nodesAddresses.values().toArray(new Node[0]);
     int maxStake = 0;
     int maxStakeNodeIndex = 0;
 
@@ -83,7 +87,7 @@ public class ProofOfStakeBlockchain implements Blockchain {
     Node validatorNode = this.selectNextValidator();
     boolean resultFromSelectedNode = validatorNode.validateTransaction(transaction);
 
-    Node[] participantNodes = (Node[]) nodesAddresses.values().toArray();
+    Node[] participantNodes = nodesAddresses.values().toArray(new Node[0]);
     List<Boolean> resultsFromValidatorNodes = new ArrayList<Boolean>();
     Integer trueResults = 0;
 

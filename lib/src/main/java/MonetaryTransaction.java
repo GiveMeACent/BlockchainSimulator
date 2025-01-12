@@ -15,6 +15,7 @@ public class MonetaryTransaction implements Transaction {
     this.id = id;
     this.senderAddress = senderAddress;
     this.recipientAddress = recipientAddress;
+    this.amountTransferred = amountTransferred;
     this.fee = fee;
     this.date = LocalDate.now();
     this.type = TransactionType.MONETARY;

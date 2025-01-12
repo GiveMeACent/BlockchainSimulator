@@ -5,6 +5,7 @@ public class ValidatorNode extends Node {
   public ValidatorNode() {
     super();
     this.isValidator = true;
+    this.stake = 0;
   }
 
   @Override
@@ -31,6 +32,9 @@ public class ValidatorNode extends Node {
 
       Node senderNode = this.blockchain.getNode(senderAddress);
       Node recipientNode = this.blockchain.getNode(recipientAddress);
+
+      if (senderAddress == recipientAddress)
+        return false;
 
       if (senderNode == null || recipientNode == null)
         return false;
