@@ -48,11 +48,13 @@ public class ProofOfStakeBlockchain implements Blockchain {
 
     Block lastBlock = blocks.get(blocks.size() - 1);
 
-    if (lastBlock != null && blocks.get(blocks.size() - 1).getCurrentSize() < 30)
+    if (lastBlock != null && blocks.get(blocks.size() - 1).getCurrentSize() < Block.BLOCK_SIZE)
       blocks.get(blocks.size() - 1).addTransaction(transaction);
 
-    else
+    else {
+      lastBlock.calculateHash();
       blocks.add(new Block(lastBlock.getHash(), blocks.size() + 1));
+    }
 
     return true;
   }

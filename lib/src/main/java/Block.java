@@ -2,11 +2,11 @@ import java.util.HashMap;
 import java.time.LocalDate;
 
 public class Block {
-  private String previousBlockHash;
+  private final String previousBlockHash;
   private HashMap<String, Transaction> transactions;
-  private LocalDate timestamp;
+  private final LocalDate timestamp;
   private String hash;
-  private Integer height;
+  private final Integer height;
   private Integer currentSize;
 
   public static final Integer BLOCK_SIZE = 30;
