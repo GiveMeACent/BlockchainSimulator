@@ -3,13 +3,9 @@ public interface Blockchain {
 
   Node getNode(String nodeAddress);
 
-  String registerSmartContract(SmartContract smartContract);
-
   SmartContract getSmartContract(String smartContractAddress);
 
   boolean registerTransaction(Transaction transaction);
 
   Transaction[] getTransactions(Integer blockNumber);
-
-  void executeSmartContract();
 }

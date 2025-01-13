@@ -1,3 +1,7 @@
+// import javax.script.Compilable;
+// import javax.script.ScriptEngine;
+// import javax.script.ScriptEngineManager;
+
 public class MonetarySmartContract implements SmartContract {
   private Node[] parties;
   private String byteCode;
@@ -24,20 +28,14 @@ public class MonetarySmartContract implements SmartContract {
 
   @Override
   public boolean validate() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'validate'");
+    return false;
+
   }
 
   @Override
   public void verifyConditions() {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'verifyConditions'");
-  }
-
-  @Override
-  public void requestExecution(Blockchain blockchain) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'requestExecution'");
   }
 
 }

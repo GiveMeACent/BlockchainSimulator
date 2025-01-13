@@ -10,6 +10,4 @@ public interface SmartContract {
   boolean validate();
 
   void verifyConditions();
-
-  void requestExecution(Blockchain blockchain);
 }

@@ -45,6 +45,9 @@ public class ValidatorNode extends Node {
       return true;
     }
 
+    if (transaction.getType() == TransactionType.SMART_CONTRACT_DEPLOY) {
+    }
+
     return false;
   }
 

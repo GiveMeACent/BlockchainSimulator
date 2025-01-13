@@ -26,13 +26,6 @@ public class ProofOfStakeBlockchain implements Blockchain {
   }
 
   @Override
-  public String registerSmartContract(SmartContract smartContract) {
-    String smartContractAddress = HashUtils.generateRandomAddress();
-    contractsAddresses.put(smartContractAddress, smartContract);
-    return smartContractAddress;
-  }
-
-  @Override
   public SmartContract getSmartContract(String smartContractAddress) {
     return contractsAddresses.get(smartContractAddress);
   }
@@ -65,13 +58,10 @@ public class ProofOfStakeBlockchain implements Blockchain {
 
   @Override
   public Transaction[] getTransactions(Integer blockNumber) {
-    return this.blocks.get(blockNumber).getAllTransactions();
-  }
-
-  @Override
-  public void executeSmartContract() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'executeSmartContract'");
+    Block block = this.blocks.get(blockNumber);
+    if (block != null)
+      return this.blocks.get(blockNumber).getAllTransactions();
+    return null;
   }
 
   private Node selectNextValidator() {
@@ -119,10 +109,4 @@ public class ProofOfStakeBlockchain implements Blockchain {
       return false;
     }
   }
-
-  private void delegateSmartContractExecution() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'delegateSmartContractExecution'");
-  }
-
 }

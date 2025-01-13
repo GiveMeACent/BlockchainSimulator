@@ -1,5 +1,5 @@
 public enum TransactionType {
   MONETARY,
-  DEPLOY,
-  SMART_CONTRACT
+  SMART_CONTRACT_DEPLOY,
+  SMART_CONTRACT_EXECUTE
 }

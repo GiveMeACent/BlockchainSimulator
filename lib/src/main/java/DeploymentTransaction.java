@@ -1,7 +1,7 @@
-public class SmartContractTransaction extends Transaction {
+public class DeploymentTransaction extends Transaction {
   private SmartContract linkedSmartContract;
 
-  public SmartContractTransaction(String id, String callerAddress, Integer fee, SmartContract contract) {
+  public DeploymentTransaction(String id, String callerAddress, Integer fee, SmartContract contract) {
     super(id, callerAddress, fee);
     this.linkedSmartContract = contract;
   }
@@ -23,11 +23,12 @@ public class SmartContractTransaction extends Transaction {
 
   @Override
   public TransactionType getType() {
-    return TransactionType.SMART_CONTRACT_EXECUTE;
+    return TransactionType.SMART_CONTRACT_DEPLOY;
   }
 
   @Override
   public void apply(Blockchain blockchain) {
     return;
   }
+
 }
