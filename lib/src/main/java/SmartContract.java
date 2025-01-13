@@ -3,13 +3,11 @@ public interface SmartContract {
 
   Node[] getParties();
 
-  void setByteCode();
+  void setByteCode(String byteCode);
 
-  String getCode();
+  String getByteCode();
 
   boolean validate();
-
-  void deploy(Blockchain blockchain);
 
   void verifyConditions();
 

@@ -27,13 +27,13 @@ public class ValidatorNode extends Node {
   @Override
   protected boolean validateTransaction(Transaction transaction) {
     if (transaction.getType() == TransactionType.MONETARY) {
-      String senderAddress = transaction.getSenderAddress();
+      String callerAddress = transaction.getCallerAddress();
       String recipientAddress = transaction.getRecipientAddress();
 
-      Node senderNode = this.blockchain.getNode(senderAddress);
+      Node senderNode = this.blockchain.getNode(callerAddress);
       Node recipientNode = this.blockchain.getNode(recipientAddress);
 
-      if (senderAddress == recipientAddress)
+      if (callerAddress == recipientAddress)
         return false;
 
       if (senderNode == null || recipientNode == null)

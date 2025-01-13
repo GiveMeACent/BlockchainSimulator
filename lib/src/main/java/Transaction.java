@@ -1,21 +1,40 @@
-public interface Transaction {
-  String getId();
+public abstract class Transaction {
 
-  String getSenderAddress();
+  private String id;
+  protected Integer fee;
+  protected String timestamp;
+  protected TransactionType type;
+  protected String callerAddress;
 
-  String getRecipientAddress();
+  public Transaction(String id, String callerAddress, Integer fee) {
+    this.id = id;
+    this.callerAddress = callerAddress;
+    this.fee = fee;
+  }
 
-  Integer getAmountTransferred();
+  public String getId() {
+    return this.id;
+  }
 
-  Integer getFee();
+  public Integer getFee() {
+    return this.fee;
+  }
 
-  String getTimeStamp();
+  public String getTimeStamp() {
+    return this.timestamp;
+  }
 
-  TransactionType getType();
+  public String getCallerAddress() {
+    return this.callerAddress;
+  }
 
-  void linkSmartContract(SmartContract contract);
+  abstract public String getRecipientAddress();
 
-  SmartContract getLinkedSmartContract();
+  abstract public Integer getAmountTransferred();
 
-  void apply(Blockchain blockchain);
+  abstract public SmartContract getLinkedSmartContract();
+
+  abstract public TransactionType getType();
+
+  abstract public void apply(Blockchain blockchain);
 }

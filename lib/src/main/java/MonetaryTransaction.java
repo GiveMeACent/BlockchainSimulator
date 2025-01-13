@@ -1,33 +1,22 @@
 import java.time.LocalDate;
 
-public class MonetaryTransaction implements Transaction {
-
-  private String id;
-  private String senderAddress;
+public class MonetaryTransaction extends Transaction {
+  private String callerAddress;
   private String recipientAddress;
   private Integer amountTransferred;
-  private Integer fee;
-  private String timestamp;
-  private TransactionType type;
 
-  public MonetaryTransaction(String id, String senderAddress, String recipientAddress, Integer amountTransferred,
-      Integer fee) {
-    this.id = id;
-    this.senderAddress = senderAddress;
+  public MonetaryTransaction(String id, Integer fee, String callerAddress, String recipientAddress,
+      Integer amountTransferred) {
+    super(id, callerAddress, fee);
+    this.callerAddress = callerAddress;
     this.recipientAddress = recipientAddress;
     this.amountTransferred = amountTransferred;
-    this.fee = fee;
     this.type = TransactionType.MONETARY;
   }
 
   @Override
-  public String getId() {
-    return this.id;
-  }
-
-  @Override
-  public String getSenderAddress() {
-    return this.senderAddress;
+  public String getCallerAddress() {
+    return this.callerAddress;
   }
 
   @Override
@@ -41,13 +30,8 @@ public class MonetaryTransaction implements Transaction {
   }
 
   @Override
-  public Integer getFee() {
-    return this.fee;
-  }
-
-  @Override
-  public String getTimeStamp() {
-    return this.timestamp;
+  public SmartContract getLinkedSmartContract() {
+    return null;
   }
 
   @Override
@@ -56,18 +40,8 @@ public class MonetaryTransaction implements Transaction {
   }
 
   @Override
-  public void linkSmartContract(SmartContract contract) {
-    return;
-  }
-
-  @Override
-  public SmartContract getLinkedSmartContract() {
-    return null;
-  }
-
-  @Override
   public void apply(Blockchain blockchain) {
-    Node senderNode = blockchain.getNode(this.senderAddress);
+    Node senderNode = blockchain.getNode(this.callerAddress);
     Node recipientNode = blockchain.getNode(this.recipientAddress);
 
     senderNode.setBalance(senderNode.getBalance() - this.amountTransferred - this.fee);

@@ -50,7 +50,7 @@ public class ProofOfStakeBlockchain implements Blockchain {
 
     transaction.apply(this);
 
-    if (lastBlock != null && blocks.get(blocks.size() - 1).getCurrentSize() < Block.BLOCK_SIZE)
+    if (blocks.get(blocks.size() - 1).getCurrentSize() < Block.BLOCK_SIZE)
       blocks.get(blocks.size() - 1).addTransaction(transaction);
 
     else {
