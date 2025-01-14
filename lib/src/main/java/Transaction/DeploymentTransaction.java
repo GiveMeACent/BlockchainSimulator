@@ -8,6 +8,7 @@ public class DeploymentTransaction extends Transaction {
   public DeploymentTransaction(String id, String callerAddress, Integer fee, SmartContractBase contract) {
     super(id, callerAddress, fee);
     this.linkedSmartContract = contract;
+    this.type = TransactionType.SMART_CONTRACT_DEPLOY;
   }
 
   @Override

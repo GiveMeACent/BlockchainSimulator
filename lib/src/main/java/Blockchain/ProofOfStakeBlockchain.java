@@ -127,11 +127,12 @@ public class ProofOfStakeBlockchain implements Blockchain {
   }
 
   private void applyTransaction(Transaction transaction) {
+    Node senderNode = nodesAddresses.get(transaction.getCallerAddress());
+    senderNode.setBalance(senderNode.getBalance() - transaction.getAmountTransferred() - transaction.getFee());
+
     switch (transaction.getType()) {
       case TransactionType.MONETARY:
-        Node senderNode = nodesAddresses.get(transaction.getCallerAddress());
         Node recipientNode = nodesAddresses.get(transaction.getRecipientAddress());
-        senderNode.setBalance(senderNode.getBalance() - transaction.getAmountTransferred() - transaction.getFee());
         recipientNode.setBalance(recipientNode.getBalance() + transaction.getAmountTransferred());
         transaction.setTimeStamp();
         break;

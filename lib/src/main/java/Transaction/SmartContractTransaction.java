@@ -11,6 +11,7 @@ public class SmartContractTransaction extends Transaction {
     super(id, callerAddress, fee);
     this.contractAddress = contractAddress;
     this.methodName = methodName;
+    this.type = TransactionType.SMART_CONTRACT_EXECUTE;
   }
 
   @Override
