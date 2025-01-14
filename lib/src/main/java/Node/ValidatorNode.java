@@ -18,7 +18,7 @@ public class ValidatorNode extends Node {
 
   @Override
   public void reward(Integer amount) {
-    this.balance += amount;
+    this.stake += amount;
   }
 
   @Override
