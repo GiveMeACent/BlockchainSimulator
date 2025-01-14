@@ -7,11 +7,5 @@ public interface SmartContract {
 
   Node[] getParties();
 
-  void setByteCode(String byteCode);
-
-  String getByteCode();
-
-  boolean validate();
-
   void verifyConditions();
 }
