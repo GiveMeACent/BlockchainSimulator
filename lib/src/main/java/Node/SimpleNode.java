@@ -1,6 +1,6 @@
 package Node;
 
-import SmartContract.SmartContract;
+import SmartContract.SmartContractBase;
 import Transaction.Transaction;
 
 public class SimpleNode extends Node {
@@ -31,7 +31,8 @@ public class SimpleNode extends Node {
   }
 
   @Override
-  public void executeSmartContract(SmartContract contract) {
+  public void executeSmartContractMethod(SmartContractBase contract, String methodName, Class<?> parameters,
+      Object... args) {
     return;
   }
 

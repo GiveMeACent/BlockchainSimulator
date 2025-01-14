@@ -1,7 +1,7 @@
 package Transaction;
 
-import Blockchain.Blockchain;
-import SmartContract.SmartContract;
+import java.time.LocalDate;
+import SmartContract.SmartContractBase;
 
 public abstract class Transaction {
 
@@ -25,6 +25,10 @@ public abstract class Transaction {
     return this.fee;
   }
 
+  public void setTimeStamp() {
+    this.timestamp = LocalDate.now().toString();
+  }
+
   public String getTimeStamp() {
     return this.timestamp;
   }
@@ -37,9 +41,12 @@ public abstract class Transaction {
 
   abstract public Integer getAmountTransferred();
 
-  abstract public SmartContract getLinkedSmartContract();
+  abstract public SmartContractBase getLinkedSmartContract();
+
+  abstract public String getLinkedSmartContractAddress();
+
+  abstract public String getMethodName();
 
   abstract public TransactionType getType();
 
-  abstract public void apply(Blockchain blockchain);
 }

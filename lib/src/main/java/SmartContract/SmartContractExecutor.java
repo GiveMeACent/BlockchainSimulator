@@ -14,6 +14,13 @@ public class SmartContractExecutor {
     return (methodsNumber + fieldsNumber) * BASE_COST;
   }
 
+  public static Integer evaluateMethodCost(SmartContractBase contract, String methodName)
+      throws NoSuchMethodException, SecurityException {
+    Method m = contract.getClass().getMethod(methodName);
+
+    return (m.getParameterCount() + m.getModifiers()) * BASE_COST;
+  }
+
   public static void invokeContractMethod(SmartContractBase contract, String methodName, Class<?> parameters,
       Object... args)
       throws NoSuchMethodException, SecurityException, IllegalAccessException, InvocationTargetException {

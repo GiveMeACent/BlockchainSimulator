@@ -1,7 +1,7 @@
 package Blockchain;
 
 import Node.Node;
-import SmartContract.SmartContract;
+import SmartContract.SmartContractBase;
 import Transaction.Transaction;
 
 public interface Blockchain {
@@ -9,9 +9,9 @@ public interface Blockchain {
 
   Node getNode(String nodeAddress);
 
-  SmartContract getSmartContract(String smartContractAddress);
+  SmartContractBase getSmartContract(String smartContractAddress);
 
-  boolean registerTransaction(Transaction transaction);
+  boolean requestTransactionRegistration(Transaction transaction);
 
   Transaction[] getTransactions(Integer blockNumber);
 }

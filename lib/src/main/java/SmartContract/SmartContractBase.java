@@ -17,5 +17,4 @@ public abstract class SmartContractBase implements SmartContract {
 
   @Override
   public abstract void verifyConditions();
-
 }

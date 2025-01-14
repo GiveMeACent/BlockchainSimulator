@@ -1,12 +1,11 @@
 package Transaction;
 
-import Blockchain.Blockchain;
-import SmartContract.SmartContract;
+import SmartContract.SmartContractBase;
 
 public class DeploymentTransaction extends Transaction {
-  private SmartContract linkedSmartContract;
+  private SmartContractBase linkedSmartContract;
 
-  public DeploymentTransaction(String id, String callerAddress, Integer fee, SmartContract contract) {
+  public DeploymentTransaction(String id, String callerAddress, Integer fee, SmartContractBase contract) {
     super(id, callerAddress, fee);
     this.linkedSmartContract = contract;
   }
@@ -22,18 +21,23 @@ public class DeploymentTransaction extends Transaction {
   }
 
   @Override
-  public SmartContract getLinkedSmartContract() {
+  public SmartContractBase getLinkedSmartContract() {
     return this.linkedSmartContract;
+  }
+
+  @Override
+  public String getLinkedSmartContractAddress() {
+    return "";
+  }
+
+  @Override
+  public String getMethodName() {
+    return "";
   }
 
   @Override
   public TransactionType getType() {
     return TransactionType.SMART_CONTRACT_DEPLOY;
-  }
-
-  @Override
-  public void apply(Blockchain blockchain) {
-    return;
   }
 
 }

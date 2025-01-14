@@ -6,19 +6,20 @@ import java.util.List;
 
 import Block.Block;
 import Node.Node;
-import SmartContract.SmartContract;
+import SmartContract.SmartContractBase;
 import Transaction.Transaction;
+import Transaction.TransactionType;
 import Utils.HashUtils;
 
 public class ProofOfStakeBlockchain implements Blockchain {
   private static Blockchain instance = null;
   private HashMap<String, Node> nodesAddresses;
-  private HashMap<String, SmartContract> contractsAddresses;
+  private HashMap<String, SmartContractBase> contractsAddresses;
   private List<Block> blocks;
 
   private ProofOfStakeBlockchain() {
     nodesAddresses = new HashMap<String, Node>();
-    contractsAddresses = new HashMap<String, SmartContract>();
+    contractsAddresses = new HashMap<String, SmartContractBase>();
     blocks = new ArrayList<Block>();
   }
 
@@ -41,12 +42,12 @@ public class ProofOfStakeBlockchain implements Blockchain {
   }
 
   @Override
-  public SmartContract getSmartContract(String smartContractAddress) {
+  public SmartContractBase getSmartContract(String smartContractAddress) {
     return contractsAddresses.get(smartContractAddress);
   }
 
   @Override
-  public boolean registerTransaction(Transaction transaction) {
+  public boolean requestTransactionRegistration(Transaction transaction) {
     if (!this.getConsesus(transaction))
       return false;
 
@@ -56,7 +57,7 @@ public class ProofOfStakeBlockchain implements Blockchain {
 
     Block lastBlock = blocks.get(blocks.size() - 1);
 
-    transaction.apply(this);
+    this.applyTransaction(transaction);
 
     if (blocks.get(blocks.size() - 1).getCurrentSize() < Block.BLOCK_SIZE)
       blocks.get(blocks.size() - 1).addTransaction(transaction);
@@ -122,6 +123,28 @@ public class ProofOfStakeBlockchain implements Blockchain {
       else
         validatorNode.penalize(transaction.getFee());
       return false;
+    }
+  }
+
+  private void applyTransaction(Transaction transaction) {
+    switch (transaction.getType()) {
+      case TransactionType.MONETARY:
+        Node senderNode = nodesAddresses.get(transaction.getCallerAddress());
+        Node recipientNode = nodesAddresses.get(transaction.getRecipientAddress());
+        senderNode.setBalance(senderNode.getBalance() - transaction.getAmountTransferred() - transaction.getFee());
+        recipientNode.setBalance(recipientNode.getBalance() + transaction.getAmountTransferred());
+        transaction.setTimeStamp();
+        break;
+
+      case TransactionType.SMART_CONTRACT_DEPLOY:
+        String contractAddress = HashUtils.generateRandomAddress();
+        contractsAddresses.put(contractAddress, transaction.getLinkedSmartContract());
+
+      case TransactionType.SMART_CONTRACT_EXECUTE:
+
+        break;
+      default:
+        break;
     }
   }
 }

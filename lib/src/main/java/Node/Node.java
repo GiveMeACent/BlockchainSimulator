@@ -1,7 +1,7 @@
 package Node;
 
 import Blockchain.Blockchain;
-import SmartContract.SmartContract;
+import SmartContract.SmartContractBase;
 import Transaction.Transaction;
 
 public abstract class Node {
@@ -41,7 +41,8 @@ public abstract class Node {
 
   abstract public void penalize(Integer amount);
 
-  abstract public void executeSmartContract(SmartContract contract);
+  abstract public void executeSmartContractMethod(SmartContractBase contract, String methodName, Class<?> parameters,
+      Object... args);
 
   abstract public boolean validateTransaction(Transaction transaction);
 

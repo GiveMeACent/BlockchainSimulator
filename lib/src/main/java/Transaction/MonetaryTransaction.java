@@ -1,10 +1,6 @@
 package Transaction;
 
-import java.time.LocalDate;
-
-import Blockchain.Blockchain;
-import Node.Node;
-import SmartContract.SmartContract;
+import SmartContract.SmartContractBase;
 
 public class MonetaryTransaction extends Transaction {
   private String callerAddress;
@@ -36,8 +32,17 @@ public class MonetaryTransaction extends Transaction {
   }
 
   @Override
-  public SmartContract getLinkedSmartContract() {
+  public SmartContractBase getLinkedSmartContract() {
     return null;
+  }
+
+  @Override
+  public String getLinkedSmartContractAddress() {
+    return "";
+  }
+
+  public String getMethodName() {
+    return "";
   }
 
   @Override
@@ -45,13 +50,4 @@ public class MonetaryTransaction extends Transaction {
     return this.type;
   }
 
-  @Override
-  public void apply(Blockchain blockchain) {
-    Node senderNode = blockchain.getNode(this.callerAddress);
-    Node recipientNode = blockchain.getNode(this.recipientAddress);
-
-    senderNode.setBalance(senderNode.getBalance() - this.amountTransferred - this.fee);
-    recipientNode.setBalance(recipientNode.getBalance() + this.amountTransferred);
-    this.timestamp = LocalDate.now().toString();
-  }
 }

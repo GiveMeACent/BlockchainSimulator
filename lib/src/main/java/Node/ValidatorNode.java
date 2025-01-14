@@ -1,6 +1,7 @@
 package Node;
 
-import SmartContract.SmartContract;
+import SmartContract.SmartContractBase;
+import SmartContract.SmartContractExecutor;
 import Transaction.Transaction;
 import ValidationControls.ValidationHandler;
 import ValidationControls.ValidationsChainFactory;
@@ -26,9 +27,13 @@ public class ValidatorNode extends Node {
   }
 
   @Override
-  public void executeSmartContract(SmartContract contract) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'executeSmartContract'");
+  public void executeSmartContractMethod(SmartContractBase contract, String methodName, Class<?> parameters,
+      Object... args) {
+    try {
+      SmartContractExecutor.invokeContractMethod(contract, methodName, parameters, args);
+    } catch (Exception e) {
+      return;
+    }
   }
 
   @Override
