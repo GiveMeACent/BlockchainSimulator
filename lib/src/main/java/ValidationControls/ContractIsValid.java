@@ -15,7 +15,12 @@ public class ContractIsValid extends ValidationHandler {
     if (!SmartContractBase.class.isAssignableFrom(contract.getClass()))
       return false;
 
-    return true;
+    if (this.nextHandler != null)
+      return this.nextHandler.validate(transaction, blockchain);
+
+    else
+      return true;
+
   }
 
 }

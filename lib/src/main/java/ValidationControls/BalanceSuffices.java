@@ -37,9 +37,11 @@ public class BalanceSuffices extends ValidationHandler {
       return false;
 
     if (this.nextHandler != null)
-      this.nextHandler.validate(transaction, blockchain);
+      return this.nextHandler.validate(transaction, blockchain);
 
-    return true;
+    else
+      return true;
+
   }
 
 }

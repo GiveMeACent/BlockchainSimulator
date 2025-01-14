@@ -21,7 +21,15 @@ public class MethodExists extends ValidationHandler {
         break;
       }
     }
-    return found;
+
+    if (!found)
+      return false;
+
+    if (this.nextHandler != null)
+      return this.nextHandler.validate(transaction, blockchain);
+
+    else
+      return true;
   }
 
 }
