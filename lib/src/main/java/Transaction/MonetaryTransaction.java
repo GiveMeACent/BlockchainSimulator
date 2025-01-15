@@ -5,14 +5,14 @@ import SmartContract.SmartContractBase;
 public class MonetaryTransaction extends Transaction {
   private String callerAddress;
   private String recipientAddress;
-  private Integer amountTransferred;
+  private Integer amoutToTransfer;
 
-  public MonetaryTransaction(String id, Integer fee, String callerAddress, String recipientAddress,
-      Integer amountTransferred) {
-    super(id, callerAddress, fee);
+  public MonetaryTransaction(Integer fee, String callerAddress, String recipientAddress,
+      Integer amoutToTransfer) {
+    super(callerAddress, fee);
     this.callerAddress = callerAddress;
     this.recipientAddress = recipientAddress;
-    this.amountTransferred = amountTransferred;
+    this.amoutToTransfer = amoutToTransfer;
     this.type = TransactionType.MONETARY;
   }
 
@@ -27,8 +27,8 @@ public class MonetaryTransaction extends Transaction {
   }
 
   @Override
-  public Integer getAmountTransferred() {
-    return this.amountTransferred;
+  public Integer getAmountToTransfer() {
+    return this.amoutToTransfer;
   }
 
   @Override

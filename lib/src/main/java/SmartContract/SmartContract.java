@@ -1,11 +1,13 @@
 package SmartContract;
 
+import java.util.List;
+
 import Node.Node;
 
 public interface SmartContract {
-  void setParties(Node[] parties);
+  void setParties(List<Node> parties);
 
-  Node[] getParties();
+  List<Node> getParties();
 
-  void verifyConditions();
+  boolean verifyConditions();
 }

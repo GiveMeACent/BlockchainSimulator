@@ -10,7 +10,7 @@ public class NodeTest {
     newNode.setBalance(10);
 
     Integer nodeBalance = newNode.getBalance();
-    assertEquals(nodeBalance, 10);
+    assertEquals(10, nodeBalance);
   }
 
   @Test
@@ -19,7 +19,7 @@ public class NodeTest {
     newNode.setValidator(true);
 
     boolean isValidator = newNode.getValidator();
-    assertEquals(isValidator, true);
+    assertEquals(true, isValidator);
   }
 
   @Test
@@ -28,7 +28,7 @@ public class NodeTest {
     newNode.putStake(30);
 
     Integer stake = newNode.getStakeValue();
-    assertEquals(stake, 30);
+    assertEquals(30, stake);
   }
 
   @Test
@@ -38,10 +38,10 @@ public class NodeTest {
 
     newNode.reward(10);
     Integer stake = newNode.getStakeValue();
-    assertEquals(stake, 40);
+    assertEquals(40, stake);
 
     newNode.penalize(10);
     stake = newNode.getStakeValue();
-    assertEquals(stake, 30);
+    assertEquals(30, stake);
   }
 }

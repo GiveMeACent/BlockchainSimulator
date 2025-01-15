@@ -12,9 +12,9 @@ public abstract class Node {
   public Node() {
   }
 
-  public void joinBlockchain(Blockchain blockchain) {
+  public String joinBlockchain(Blockchain blockchain) {
     this.blockchain = blockchain;
-    blockchain.registerNode(this);
+    return blockchain.registerNode(this);
   }
 
   public void setBalance(Integer amount) {

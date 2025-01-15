@@ -17,15 +17,15 @@ public class ValidationsChainFactory {
 
       case TransactionType.SMART_CONTRACT_DEPLOY:
         handlerChain = new CallerExists();
-        handlerChain.setNextHandler(new BalanceSuffices());
         handlerChain.setNextHandler(new ContractIsValid());
+        handlerChain.setNextHandler(new BalanceSuffices());
         break;
 
       case TransactionType.SMART_CONTRACT_EXECUTE:
         handlerChain = new CallerExists();
-        handlerChain.setNextHandler(new BalanceSuffices());
         handlerChain.setNextHandler(new ContractExists());
         handlerChain.setNextHandler(new MethodExists());
+        handlerChain.setNextHandler(new BalanceSuffices());
         break;
     }
 

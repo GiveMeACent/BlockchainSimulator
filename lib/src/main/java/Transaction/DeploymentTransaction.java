@@ -6,7 +6,7 @@ public class DeploymentTransaction extends Transaction {
   private SmartContractBase linkedSmartContract;
 
   public DeploymentTransaction(String id, String callerAddress, Integer fee, SmartContractBase contract) {
-    super(id, callerAddress, fee);
+    super(callerAddress, fee);
     this.linkedSmartContract = contract;
     this.type = TransactionType.SMART_CONTRACT_DEPLOY;
   }
@@ -17,7 +17,7 @@ public class DeploymentTransaction extends Transaction {
   }
 
   @Override
-  public Integer getAmountTransferred() {
+  public Integer getAmountToTransfer() {
     return 0;
   }
 

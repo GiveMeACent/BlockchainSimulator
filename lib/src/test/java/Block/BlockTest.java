@@ -10,19 +10,19 @@ public class BlockTest {
   @Test
   void testBlockGetPreviousBlockHash() {
     Block blockOne = new Block("GENESIS_HASH", 0);
-    assertEquals(blockOne.getPreviousBlockHash(), "GENESIS_HASH");
+    assertEquals("GENESIS_HASH", blockOne.getPreviousBlockHash());
   }
 
   @Test
   void testBlockGetHeight() {
     Block blockOne = new Block("GENESIS_HASH", 0);
-    assertEquals(blockOne.getHeight(), 0);
+    assertEquals(0, blockOne.getHeight());
   }
 
   @Test
   void testBlockGetCurrentSize() {
     Block blockOne = new Block("GENESIS_HASH", 0);
-    assertEquals(blockOne.getCurrentSize(), 0);
+    assertEquals(0, blockOne.getCurrentSize());
   }
 
   @Test
@@ -34,6 +34,7 @@ public class BlockTest {
     blockOne.calculateHash();
     String actualHash = blockOne.getHash();
     String expectedHash = HashUtils.hashSha256(previousBlockHash.concat(timestamp));
+    assertEquals(expectedHash, actualHash);
 
   }
 

@@ -1,5 +1,7 @@
 package Blockchain;
 
+import java.util.List;
+
 import Node.Node;
 import SmartContract.SmartContractBase;
 import Transaction.Transaction;
@@ -13,5 +15,5 @@ public interface Blockchain {
 
   boolean requestTransactionRegistration(Transaction transaction);
 
-  Transaction[] getTransactions(Integer blockNumber);
+  List<Transaction> getTransactions(Integer blockNumber);
 }

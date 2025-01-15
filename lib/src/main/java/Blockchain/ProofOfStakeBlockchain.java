@@ -73,7 +73,7 @@ public class ProofOfStakeBlockchain implements Blockchain {
   }
 
   @Override
-  public Transaction[] getTransactions(Integer blockNumber) {
+  public List<Transaction> getTransactions(Integer blockNumber) {
     Block block = this.blocks.get(blockNumber);
     if (block != null)
       return this.blocks.get(blockNumber).getAllTransactions();
@@ -101,17 +101,21 @@ public class ProofOfStakeBlockchain implements Blockchain {
 
     Node[] participantNodes = nodesAddresses.values().toArray(new Node[0]);
     List<Boolean> resultsFromValidatorNodes = new ArrayList<Boolean>();
-    Integer trueResults = 0;
+    Integer trueResults = resultFromSelectedNode ? 1 : 0;
+    Integer validatorNodes = 0;
+    boolean currentValidatorNodeResult;
 
     for (int i = 0; i < participantNodes.length; i++) {
       if (participantNodes[i].getValidator() && !participantNodes[i].equals(validatorNode)) {
-        if (resultsFromValidatorNodes.add(participantNodes[i].validateTransaction(transaction))) {
+        validatorNodes += 1;
+        currentValidatorNodeResult = participantNodes[i].validateTransaction(transaction);
+        resultsFromValidatorNodes.add(currentValidatorNodeResult);
+        if (currentValidatorNodeResult)
           trueResults += 1;
-        }
       }
     }
 
-    if (trueResults >= participantNodes.length / 2 + 1) {
+    if (trueResults >= validatorNodes / 2 + 1) {
       if (resultFromSelectedNode)
         validatorNode.reward(transaction.getFee());
       else
@@ -128,12 +132,12 @@ public class ProofOfStakeBlockchain implements Blockchain {
 
   private void applyTransaction(Transaction transaction) {
     Node senderNode = nodesAddresses.get(transaction.getCallerAddress());
-    senderNode.setBalance(senderNode.getBalance() - transaction.getAmountTransferred() - transaction.getFee());
+    senderNode.setBalance(senderNode.getBalance() - transaction.getAmountToTransfer() - transaction.getFee());
 
     switch (transaction.getType()) {
       case TransactionType.MONETARY:
         Node recipientNode = nodesAddresses.get(transaction.getRecipientAddress());
-        recipientNode.setBalance(recipientNode.getBalance() + transaction.getAmountTransferred());
+        recipientNode.setBalance(recipientNode.getBalance() + transaction.getAmountToTransfer());
         transaction.setTimeStamp();
         break;
 

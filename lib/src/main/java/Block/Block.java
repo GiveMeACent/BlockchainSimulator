@@ -1,6 +1,8 @@
 package Block;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import Transaction.Transaction;
 import Utils.HashUtils;
@@ -45,12 +47,12 @@ public class Block {
     return transactions.get(transactionId);
   }
 
-  public Transaction[] getAllTransactions() {
-    return (Transaction[]) this.transactions.values().toArray();
+  public List<Transaction> getAllTransactions() {
+    return this.transactions.values().stream().collect(Collectors.toList());
   }
 
-  public String[] getAllTransactionIds() {
-    return (String[]) transactions.keySet().toArray();
+  public List<String> getAllTransactionIds() {
+    return transactions.keySet().stream().collect(Collectors.toList());
   }
 
   public Integer getHeight() {
@@ -74,8 +76,8 @@ public class Block {
 
     sb.append(this.previousBlockHash);
 
-    for (Transaction transaction : this.transactions.values())
-      sb.append(transaction.getId());
+    for (String transactionId : this.transactions.keySet())
+      sb.append(transactionId);
     sb.append(this.timestamp.toString());
 
     header = sb.toString();

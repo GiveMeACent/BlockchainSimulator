@@ -20,9 +20,9 @@ public class HashUtils {
       sb.append(possibleCharacters.charAt(randomIndex));
     }
 
-    randomAddress.concat(sb.toString());
+    String finalAddress = randomAddress.concat(sb.toString());
 
-    return randomAddress;
+    return finalAddress;
   }
 
   public static String hashSha256(String base) {

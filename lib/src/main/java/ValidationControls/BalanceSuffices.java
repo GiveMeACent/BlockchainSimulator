@@ -16,7 +16,7 @@ public class BalanceSuffices extends ValidationHandler {
     String callerAddress = transaction.getCallerAddress();
     Node senderNode = blockchain.getNode(callerAddress);
 
-    totalFee += transaction.getAmountTransferred() + transaction.getFee();
+    totalFee += transaction.getAmountToTransfer() + transaction.getFee();
 
     SmartContractBase linkedSmartContract = transaction.getLinkedSmartContract();
     if (linkedSmartContract != null) {
@@ -26,7 +26,8 @@ public class BalanceSuffices extends ValidationHandler {
 
       if (transaction.getType() == TransactionType.SMART_CONTRACT_EXECUTE) {
         try {
-          totalFee += SmartContractExecutor.evaluateMethodCost(linkedSmartContract, transaction.getMethodName());
+          totalFee += SmartContractExecutor.evaluateMethodCost(
+              blockchain.getSmartContract(transaction.getLinkedSmartContractAddress()), transaction.getMethodName());
         } catch (Exception e) {
           return false;
         }

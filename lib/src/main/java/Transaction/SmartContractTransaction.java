@@ -8,7 +8,7 @@ public class SmartContractTransaction extends Transaction {
 
   public SmartContractTransaction(String id, String callerAddress, Integer fee, String contractAddress,
       String methodName) {
-    super(id, callerAddress, fee);
+    super(callerAddress, fee);
     this.contractAddress = contractAddress;
     this.methodName = methodName;
     this.type = TransactionType.SMART_CONTRACT_EXECUTE;
@@ -20,7 +20,7 @@ public class SmartContractTransaction extends Transaction {
   }
 
   @Override
-  public Integer getAmountTransferred() {
+  public Integer getAmountToTransfer() {
     return 0;
   }
 

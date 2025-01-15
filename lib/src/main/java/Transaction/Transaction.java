@@ -5,20 +5,14 @@ import SmartContract.SmartContractBase;
 
 public abstract class Transaction {
 
-  private String id;
   protected Integer fee;
   protected String timestamp;
   protected TransactionType type;
   protected String callerAddress;
 
-  public Transaction(String id, String callerAddress, Integer fee) {
-    this.id = id;
+  public Transaction(String callerAddress, Integer fee) {
     this.callerAddress = callerAddress;
     this.fee = fee;
-  }
-
-  public String getId() {
-    return this.id;
   }
 
   public Integer getFee() {
@@ -39,7 +33,7 @@ public abstract class Transaction {
 
   abstract public String getRecipientAddress();
 
-  abstract public Integer getAmountTransferred();
+  abstract public Integer getAmountToTransfer();
 
   abstract public SmartContractBase getLinkedSmartContract();
 
