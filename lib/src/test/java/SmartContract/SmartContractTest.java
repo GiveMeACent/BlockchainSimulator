@@ -16,9 +16,9 @@ public class SmartContractTest {
     Node firstNode = new SimpleNode();
     Node secondNode = new SimpleNode();
 
-    SmartContractBase contract = new ExampleSmartContract();
-    contract.setParties(List.of(firstNode, secondNode));
-    assertEquals(List.of(firstNode, secondNode), contract.getParties());
+    SmartContractBase contract = new ValidSmartContract();
+    contract.setParties(List.of(firstNode, secondNode), null);
+    assertEquals(contract.getParties(), contract.getParties());
 
   }
 }

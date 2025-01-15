@@ -41,6 +41,10 @@ public abstract class Transaction {
 
   abstract public String getMethodName();
 
+  abstract public Class<?>[] getParameters();
+
+  abstract public Object[] getArgs();
+
   abstract public TransactionType getType();
 
 }

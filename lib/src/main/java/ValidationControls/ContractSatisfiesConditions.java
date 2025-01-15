@@ -4,15 +4,12 @@ import Blockchain.Blockchain;
 import SmartContract.SmartContractBase;
 import Transaction.Transaction;
 
-public class ContractIsValid extends ValidationHandler {
+public class ContractSatisfiesConditions extends ValidationHandler {
 
   @Override
   public boolean validate(Transaction transaction, Blockchain blockchain) {
-    SmartContractBase contract = transaction.getLinkedSmartContract();
-    if (contract == null)
-      return false;
-
-    if (!SmartContractBase.class.isAssignableFrom(contract.getClass()))
+    SmartContractBase contract = blockchain.getSmartContract(transaction.getLinkedSmartContractAddress());
+    if (!contract.verifyConditions())
       return false;
 
     if (this.nextHandler != null)
@@ -20,7 +17,6 @@ public class ContractIsValid extends ValidationHandler {
 
     else
       return true;
-
   }
 
 }

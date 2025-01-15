@@ -27,8 +27,8 @@ public class ValidatorNode extends Node {
   }
 
   @Override
-  public void executeSmartContractMethod(SmartContractBase contract, String methodName, Class<?> parameters,
-      Object... args) {
+  public void executeSmartContractMethod(SmartContractBase contract, String methodName, Class<?> parameters[],
+      Object args[]) {
     try {
       SmartContractExecutor.invokeContractMethod(contract, methodName, parameters, args);
     } catch (Exception e) {
@@ -51,6 +51,15 @@ public class ValidatorNode extends Node {
   @Override
   public Integer getStakeValue() {
     return this.stake;
+  }
+
+  @Override
+  public Node clone() {
+    Node cloned = new ValidatorNode();
+    cloned.balance = this.balance;
+    cloned.putStake(this.stake);
+    cloned.setValidator(true);
+    return cloned;
   }
 
 }

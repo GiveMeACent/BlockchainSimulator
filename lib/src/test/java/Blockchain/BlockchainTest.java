@@ -9,7 +9,12 @@ import org.junit.jupiter.api.Test;
 
 import Node.Node;
 import Node.ValidatorNode;
+import SmartContract.ValidSmartContract;
+import SmartContract.MaliciousSmartContract;
+import SmartContract.SmartContractBase;
+import Transaction.DeploymentTransaction;
 import Transaction.MonetaryTransaction;
+import Transaction.SmartContractTransaction;
 import Transaction.Transaction;
 import Node.SimpleNode;
 
@@ -106,6 +111,26 @@ public class BlockchainTest {
     expectedSecondBlockTransaction = List.of(firstTransaction);
 
     assertEquals(expectedSecondBlockTransaction, secondBlockTransactions);
+
+    SmartContractBase validContract = new ValidSmartContract();
+
+    firstNode.setBalance(15);
+    secondNode.setBalance(20);
+
+    Transaction fifthTransaction = new DeploymentTransaction(firstNodeAddress, 6, validContract);
+    assertEquals(false, blockchain.requestTransactionRegistration(fifthTransaction));
+
+    firstNode.setBalance(21);
+    assertEquals(true, blockchain.requestTransactionRegistration(fifthTransaction));
+    secondBlockTransactions = blockchain.getTransactions(1);
+    assertEquals(true, secondBlockTransactions.contains(fifthTransaction));
+    assertEquals(0, firstNode.getBalance());
+
+    firstNode.setBalance(250);
+    secondNode.setBalance(20);
+    SmartContractBase maliciousContract = new MaliciousSmartContract();
+    Transaction sixthTransaction = new DeploymentTransaction(firstNodeAddress, 5, maliciousContract);
+    assertEquals(true, blockchain.requestTransactionRegistration(sixthTransaction));
 
   }
 }

@@ -41,9 +41,11 @@ public abstract class Node {
 
   abstract public void penalize(Integer amount);
 
-  abstract public void executeSmartContractMethod(SmartContractBase contract, String methodName, Class<?> parameters,
-      Object... args);
+  abstract public void executeSmartContractMethod(SmartContractBase contract, String methodName, Class<?> parameters[],
+      Object args[]);
 
   abstract public boolean validateTransaction(Transaction transaction);
+
+  abstract public Node clone();
 
 }

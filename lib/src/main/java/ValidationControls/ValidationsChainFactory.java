@@ -17,7 +17,7 @@ public class ValidationsChainFactory {
 
       case TransactionType.SMART_CONTRACT_DEPLOY:
         handlerChain = new CallerExists();
-        handlerChain.setNextHandler(new ContractIsValid());
+        handlerChain.setNextHandler(new ContractClassIsValid());
         handlerChain.setNextHandler(new BalanceSuffices());
         break;
 
@@ -25,6 +25,8 @@ public class ValidationsChainFactory {
         handlerChain = new CallerExists();
         handlerChain.setNextHandler(new ContractExists());
         handlerChain.setNextHandler(new MethodExists());
+        handlerChain.setNextHandler(new ContractCodeIsValid());
+        handlerChain.setNextHandler(new ContractSatisfiesConditions());
         handlerChain.setNextHandler(new BalanceSuffices());
         break;
     }

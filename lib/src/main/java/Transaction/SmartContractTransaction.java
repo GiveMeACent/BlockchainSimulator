@@ -5,13 +5,17 @@ import SmartContract.SmartContractBase;
 public class SmartContractTransaction extends Transaction {
   private String contractAddress;
   private String methodName;
+  private Class<?> parameters[];
+  private Object[] args;
 
-  public SmartContractTransaction(String id, String callerAddress, Integer fee, String contractAddress,
-      String methodName) {
+  public SmartContractTransaction(String callerAddress, Integer fee, String contractAddress,
+      String methodName, Class<?> parameters[],
+      Object[] args) {
     super(callerAddress, fee);
     this.contractAddress = contractAddress;
     this.methodName = methodName;
-    this.type = TransactionType.SMART_CONTRACT_EXECUTE;
+    this.parameters = parameters;
+    this.args = args;
   }
 
   @Override
@@ -37,6 +41,16 @@ public class SmartContractTransaction extends Transaction {
   @Override
   public String getMethodName() {
     return this.methodName;
+  }
+
+  @Override
+  public Class<?>[] getParameters() {
+    return this.parameters;
+  }
+
+  @Override
+  public Object[] getArgs() {
+    return this.args;
   }
 
   @Override

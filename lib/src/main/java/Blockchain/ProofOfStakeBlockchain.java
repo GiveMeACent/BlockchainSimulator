@@ -7,6 +7,7 @@ import java.util.List;
 import Block.Block;
 import Node.Node;
 import SmartContract.SmartContractBase;
+import SmartContract.SmartContractExecutor;
 import Transaction.Transaction;
 import Transaction.TransactionType;
 import Utils.HashUtils;
@@ -80,6 +81,16 @@ public class ProofOfStakeBlockchain implements Blockchain {
     return null;
   }
 
+  private Integer calculateTotalTransactionFee(Transaction transaction) {
+    Integer totalFee = transaction.getFee();
+    if (transaction.getType() == TransactionType.SMART_CONTRACT_DEPLOY)
+      totalFee += SmartContractExecutor.evaluateContractCost(transaction.getLinkedSmartContract());
+    if (transaction.getType() == TransactionType.SMART_CONTRACT_EXECUTE)
+      totalFee += SmartContractExecutor.evaluateMethodCost(transaction.getLinkedSmartContract(),
+          transaction.getMethodName(), transaction.getParameters());
+    return totalFee;
+  }
+
   private Node selectNextValidator() {
     Node[] participantNodes = nodesAddresses.values().toArray(new Node[0]);
     int maxStake = 0;
@@ -117,22 +128,23 @@ public class ProofOfStakeBlockchain implements Blockchain {
 
     if (trueResults >= validatorNodes / 2 + 1) {
       if (resultFromSelectedNode)
-        validatorNode.reward(transaction.getFee());
+        validatorNode.reward(this.calculateTotalTransactionFee(transaction));
       else
-        validatorNode.penalize(transaction.getFee());
+        validatorNode.penalize(this.calculateTotalTransactionFee(transaction));
       return true;
     } else {
       if (!resultFromSelectedNode)
-        validatorNode.reward(transaction.getFee());
+        validatorNode.reward(this.calculateTotalTransactionFee(transaction));
       else
-        validatorNode.penalize(transaction.getFee());
+        validatorNode.penalize(this.calculateTotalTransactionFee(transaction));
       return false;
     }
   }
 
   private void applyTransaction(Transaction transaction) {
     Node senderNode = nodesAddresses.get(transaction.getCallerAddress());
-    senderNode.setBalance(senderNode.getBalance() - transaction.getAmountToTransfer() - transaction.getFee());
+    senderNode.setBalance(
+        senderNode.getBalance() - this.calculateTotalTransactionFee(transaction) - transaction.getAmountToTransfer());
 
     switch (transaction.getType()) {
       case TransactionType.MONETARY:
@@ -144,8 +156,15 @@ public class ProofOfStakeBlockchain implements Blockchain {
       case TransactionType.SMART_CONTRACT_DEPLOY:
         String contractAddress = HashUtils.generateRandomAddress();
         contractsAddresses.put(contractAddress, transaction.getLinkedSmartContract());
+        break;
 
       case TransactionType.SMART_CONTRACT_EXECUTE:
+        SmartContractBase contract = contractsAddresses.get(transaction.getLinkedSmartContractAddress());
+        List<Node> parties = contract.getParties();
+        List<String> partiesAddresses = contract.getPartiesAddresses();
+        for (int i = 0; i < parties.size(); i++) {
+          nodesAddresses.replace(partiesAddresses.get(i), parties.get(i));
+        }
 
         break;
       default:

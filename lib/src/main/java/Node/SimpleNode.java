@@ -31,14 +31,22 @@ public class SimpleNode extends Node {
   }
 
   @Override
-  public void executeSmartContractMethod(SmartContractBase contract, String methodName, Class<?> parameters,
-      Object... args) {
+  public void executeSmartContractMethod(SmartContractBase contract, String methodName, Class<?> parameters[],
+      Object args[]) {
     return;
   }
 
   @Override
   public Integer getStakeValue() {
     return 0;
+  }
+
+  @Override
+  public Node clone() {
+    Node cloned = new SimpleNode();
+    cloned.balance = this.balance;
+    cloned.setValidator(false);
+    return cloned;
   }
 
 }
