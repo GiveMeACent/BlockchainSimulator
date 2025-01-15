@@ -1,12 +1,11 @@
 package Node;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
 
 public class NodeTest {
   @Test
-  void nodeHasBalance() {
+  void testNodeSetBalance() {
     Node newNode = new SimpleNode();
     newNode.setBalance(10);
 
@@ -15,7 +14,7 @@ public class NodeTest {
   }
 
   @Test
-  void nodeHasValidator() {
+  void testNodeSetValidator() {
     Node newNode = new SimpleNode();
     newNode.setValidator(true);
 
@@ -24,7 +23,7 @@ public class NodeTest {
   }
 
   @Test
-  void nodeHasStake() {
+  void testNodePutStake() {
     Node newNode = new ValidatorNode();
     newNode.putStake(30);
 
@@ -33,7 +32,7 @@ public class NodeTest {
   }
 
   @Test
-  void nodeGetsRewardedAndPenalized() {
+  void testNodeRewardPenalize() {
     Node newNode = new ValidatorNode();
     newNode.putStake(30);
 
