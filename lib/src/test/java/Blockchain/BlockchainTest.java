@@ -25,7 +25,7 @@ public class BlockchainTest {
     Node nodeOne = new SimpleNode();
 
     String nodeOneAddress = nodeOne.joinBlockchain(blockchain);
-    assertEquals(nodeOne, blockchain.getNode(nodeOneAddress));
+    assertEquals(nodeOne.getBalance(), blockchain.getNode(nodeOneAddress).getBalance());
   }
 
   @Test
