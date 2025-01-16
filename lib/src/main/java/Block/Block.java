@@ -1,6 +1,6 @@
 package Block;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 public class Block {
   private final String previousBlockHash;
-  private HashMap<String, Transaction> transactions;
+  private LinkedHashMap<String, Transaction> transactions;
   private final LocalDate timestamp;
   private String hash;
   private final Integer height;
@@ -21,7 +21,7 @@ public class Block {
 
   public Block(String previousHashBlock, Integer height) {
     this.previousBlockHash = previousHashBlock;
-    this.transactions = new HashMap<String, Transaction>(Block.BLOCK_SIZE);
+    this.transactions = new LinkedHashMap<String, Transaction>(Block.BLOCK_SIZE);
     this.timestamp = LocalDate.now();
     this.height = height;
     this.currentSize = 0;
@@ -65,6 +65,7 @@ public class Block {
 
   public String addTransaction(Transaction transaction) {
     String transactionAddress = HashUtils.generateRandomAddress();
+    transaction.setAddress(transactionAddress);
     this.transactions.put(transactionAddress, transaction);
     this.currentSize += 1;
     return transactionAddress;

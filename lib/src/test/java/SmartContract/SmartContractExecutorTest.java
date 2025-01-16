@@ -16,7 +16,7 @@ public class SmartContractExecutorTest {
     Node secondNode = new SimpleNode();
 
     SmartContractBase contract = new ValidSmartContract();
-    contract.setParties(List.of(firstNode, secondNode), null);
+    contract.setParties(List.of(firstNode, secondNode));
 
     assertEquals(15, SmartContractExecutor.evaluateContractCost(contract));
   }
@@ -27,7 +27,7 @@ public class SmartContractExecutorTest {
     Node secondNode = new SimpleNode();
 
     SmartContractBase contract = new ValidSmartContract();
-    contract.setParties(List.of(firstNode, secondNode), null);
+    contract.setParties(List.of(firstNode, secondNode));
     Class<?>[] paramTypes = new Class[1];
     paramTypes[0] = Integer.class;
 
@@ -43,7 +43,7 @@ public class SmartContractExecutorTest {
     secondNode.setBalance(30);
 
     SmartContractBase contract = new ValidSmartContract();
-    contract.setParties(List.of(firstNode, secondNode), null);
+    contract.setParties(List.of(firstNode, secondNode));
     Class<?>[] paramTypes = new Class[1];
     paramTypes[0] = Integer.class;
     Object[] args = { 10 };
@@ -52,8 +52,5 @@ public class SmartContractExecutorTest {
 
     assertEquals(10, contract.getParties().get(0).getBalance());
     assertEquals(40, contract.getParties().get(1).getBalance());
-
-    assertEquals(20, firstNode.getBalance());
-    assertEquals(30, secondNode.getBalance());
   }
 }

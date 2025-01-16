@@ -11,23 +11,26 @@ public class ValidationsChainFactory {
     switch (transaction.getType()) {
       case TransactionType.MONETARY:
         handlerChain = new CallerExists();
-        handlerChain.setNextHandler(new RecipientExists());
-        handlerChain.setNextHandler(new BalanceSuffices());
+        handlerChain.addHandler(new RecipientExists());
+        handlerChain.addHandler(new BalanceSuffices());
         break;
 
       case TransactionType.SMART_CONTRACT_DEPLOY:
         handlerChain = new CallerExists();
-        handlerChain.setNextHandler(new ContractClassIsValid());
-        handlerChain.setNextHandler(new BalanceSuffices());
+        handlerChain.addHandler(new ContractClassIsValid());
+        handlerChain.addHandler(new BalanceSuffices());
         break;
 
       case TransactionType.SMART_CONTRACT_EXECUTE:
         handlerChain = new CallerExists();
-        handlerChain.setNextHandler(new ContractExists());
-        handlerChain.setNextHandler(new MethodExists());
-        handlerChain.setNextHandler(new ContractCodeIsValid());
-        handlerChain.setNextHandler(new ContractSatisfiesConditions());
-        handlerChain.setNextHandler(new BalanceSuffices());
+        handlerChain.addHandler(new ContractExists());
+        handlerChain.addHandler(new MethodExists());
+        handlerChain.addHandler(new ContractCodeIsValid());
+        handlerChain.addHandler(new ContractSatisfiesConditions());
+        handlerChain.addHandler(new BalanceSuffices());
+        break;
+
+      default:
         break;
     }
 

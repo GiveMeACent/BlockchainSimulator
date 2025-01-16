@@ -8,12 +8,12 @@ public class SmartContractTransaction extends Transaction {
   private Class<?> parameters[];
   private Object[] args;
 
-  public SmartContractTransaction(String callerAddress, Integer fee, String contractAddress,
+  public SmartContractTransaction(String callerAddress, String contractAddress, Integer fee,
       String methodName, Class<?> parameters[],
       Object[] args) {
     super(callerAddress, fee);
-    this.contractAddress = contractAddress;
     this.methodName = methodName;
+    this.contractAddress = contractAddress;
     this.parameters = parameters;
     this.args = args;
   }
@@ -31,6 +31,11 @@ public class SmartContractTransaction extends Transaction {
   @Override
   public SmartContractBase getLinkedSmartContract() {
     return null;
+  }
+
+  @Override
+  public void setLinkedSmartContractAddress(String contractAddress) {
+    return;
   }
 
   @Override

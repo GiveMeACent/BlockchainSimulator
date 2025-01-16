@@ -36,6 +36,11 @@ public class MonetaryTransaction extends Transaction {
   }
 
   @Override
+  public void setLinkedSmartContractAddress(String contractAddress) {
+    return;
+  }
+
+  @Override
   public String getLinkedSmartContractAddress() {
     return "";
   }

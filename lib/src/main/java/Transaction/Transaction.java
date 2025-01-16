@@ -5,6 +5,7 @@ import SmartContract.SmartContractBase;
 
 public abstract class Transaction {
 
+  protected String address;
   protected Integer fee;
   protected String timestamp;
   protected TransactionType type;
@@ -13,6 +14,14 @@ public abstract class Transaction {
   public Transaction(String callerAddress, Integer fee) {
     this.callerAddress = callerAddress;
     this.fee = fee;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
+  }
+
+  public String getAddress() {
+    return this.address;
   }
 
   public Integer getFee() {
@@ -36,6 +45,8 @@ public abstract class Transaction {
   abstract public Integer getAmountToTransfer();
 
   abstract public SmartContractBase getLinkedSmartContract();
+
+  abstract public void setLinkedSmartContractAddress(String contractAddress);
 
   abstract public String getLinkedSmartContractAddress();
 

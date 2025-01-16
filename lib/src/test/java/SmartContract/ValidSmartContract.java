@@ -11,7 +11,7 @@ public class ValidSmartContract extends SmartContractBase {
   @Override
   public boolean verifyConditions() {
 
-    return this.parties.size() == 2;
+    return this.partiesAddresses.size() == 2;
   }
 
   public void transferToB(Integer amount) {
@@ -19,6 +19,7 @@ public class ValidSmartContract extends SmartContractBase {
     Node nodeB = parties.get(1);
     nodeA.setBalance(nodeA.getBalance() - amount);
     nodeB.setBalance(nodeB.getBalance() + amount);
+
     this.doSomething();
   }
 

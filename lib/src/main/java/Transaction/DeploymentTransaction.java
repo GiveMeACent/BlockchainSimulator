@@ -4,6 +4,7 @@ import SmartContract.SmartContractBase;
 
 public class DeploymentTransaction extends Transaction {
   private SmartContractBase linkedSmartContract;
+  private String contractAddress;
 
   public DeploymentTransaction(String callerAddress, Integer fee, SmartContractBase contract) {
     super(callerAddress, fee);
@@ -26,8 +27,13 @@ public class DeploymentTransaction extends Transaction {
   }
 
   @Override
+  public void setLinkedSmartContractAddress(String contractAddress) {
+    this.contractAddress = contractAddress;
+  }
+
+  @Override
   public String getLinkedSmartContractAddress() {
-    return "";
+    return this.contractAddress;
   }
 
   @Override

@@ -39,7 +39,11 @@ public class ProofOfStakeBlockchain implements Blockchain {
 
   @Override
   public Node getNode(String nodeAddress) {
-    return nodesAddresses.get(nodeAddress);
+    Node node = nodesAddresses.get(nodeAddress);
+    if (node != null)
+      return node.clone();
+    else
+      return null;
   }
 
   @Override
@@ -144,7 +148,7 @@ public class ProofOfStakeBlockchain implements Blockchain {
   private void applyTransaction(Transaction transaction) {
     Node senderNode = nodesAddresses.get(transaction.getCallerAddress());
     senderNode.setBalance(
-        senderNode.getBalance() - this.calculateTotalTransactionFee(transaction) - transaction.getAmountToTransfer());
+        senderNode.getBalance() - transaction.getAmountToTransfer() - this.calculateTotalTransactionFee(transaction));
 
     switch (transaction.getType()) {
       case TransactionType.MONETARY:
@@ -155,6 +159,7 @@ public class ProofOfStakeBlockchain implements Blockchain {
 
       case TransactionType.SMART_CONTRACT_DEPLOY:
         String contractAddress = HashUtils.generateRandomAddress();
+        transaction.setLinkedSmartContractAddress(contractAddress);
         contractsAddresses.put(contractAddress, transaction.getLinkedSmartContract());
         break;
 
@@ -162,8 +167,11 @@ public class ProofOfStakeBlockchain implements Blockchain {
         SmartContractBase contract = contractsAddresses.get(transaction.getLinkedSmartContractAddress());
         List<Node> parties = contract.getParties();
         List<String> partiesAddresses = contract.getPartiesAddresses();
+        Node currentNode;
         for (int i = 0; i < parties.size(); i++) {
-          nodesAddresses.replace(partiesAddresses.get(i), parties.get(i));
+          currentNode = nodesAddresses.get(partiesAddresses.get(i));
+          currentNode.setBalance(parties.get(i).getBalance());
+          currentNode.putStake(parties.get(i).getStakeValue());
         }
 
         break;

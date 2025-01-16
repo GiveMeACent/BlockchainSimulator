@@ -29,7 +29,7 @@ public class BlockchainTest {
   }
 
   @Test
-  void testFunctionality() {
+  void functionalityTest() {
     Blockchain blockchain = ProofOfStakeBlockchain.getInstance();
 
     Node firstNode = new SimpleNode();
@@ -113,6 +113,7 @@ public class BlockchainTest {
     assertEquals(expectedSecondBlockTransaction, secondBlockTransactions);
 
     SmartContractBase validContract = new ValidSmartContract();
+    validContract.setPartiesAddresses(List.of(firstNodeAddress, secondNodeAddress));
 
     firstNode.setBalance(15);
     secondNode.setBalance(20);
@@ -123,7 +124,8 @@ public class BlockchainTest {
     firstNode.setBalance(21);
     assertEquals(true, blockchain.requestTransactionRegistration(fifthTransaction));
     secondBlockTransactions = blockchain.getTransactions(1);
-    assertEquals(true, secondBlockTransactions.contains(fifthTransaction));
+    assertEquals(fifthTransaction, secondBlockTransactions.getLast());
+    assertEquals(fifthTransaction.getLinkedSmartContract(), validContract);
     assertEquals(0, firstNode.getBalance());
 
     firstNode.setBalance(250);
@@ -131,6 +133,32 @@ public class BlockchainTest {
     SmartContractBase maliciousContract = new MaliciousSmartContract();
     Transaction sixthTransaction = new DeploymentTransaction(firstNodeAddress, 5, maliciousContract);
     assertEquals(true, blockchain.requestTransactionRegistration(sixthTransaction));
+
+    firstNode.setBalance(20);
+    secondNode.setBalance(30);
+
+    Class<?>[] paramTypes = new Class[1];
+    paramTypes[0] = Integer.class;
+    Object[] args = { 10 };
+
+    Transaction seventhTransaction = new SmartContractTransaction(firstNodeAddress,
+        fifthTransaction.getLinkedSmartContractAddress(), 5, "transferToB",
+        paramTypes, args);
+
+    assertEquals(true,
+        blockchain.requestTransactionRegistration(seventhTransaction));
+
+    assertEquals(10, firstNode.getBalance());
+    assertEquals(40, secondNode.getBalance());
+
+    Transaction eighthTransaction = new SmartContractTransaction(firstNodeAddress,
+        sixthTransaction.getLinkedSmartContractAddress(), 5, "transferToB", paramTypes, args);
+
+    assertEquals(true,
+        blockchain.requestTransactionRegistration(eighthTransaction));
+
+    assertEquals(5, firstNode.getBalance());
+    assertEquals(40, secondNode.getBalance());
 
   }
 }
