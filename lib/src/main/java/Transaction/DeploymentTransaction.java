@@ -9,6 +9,7 @@ public class DeploymentTransaction extends Transaction {
   public DeploymentTransaction(String callerAddress, Integer fee, SmartContractBase contract) {
     super(callerAddress, fee);
     this.linkedSmartContract = contract;
+    this.contractAddress = "";
   }
 
   @Override
@@ -54,6 +55,15 @@ public class DeploymentTransaction extends Transaction {
   @Override
   public TransactionType getType() {
     return TransactionType.SMART_CONTRACT_DEPLOY;
+  }
+
+  @Override
+  public Transaction clone() {
+    Transaction trx = new DeploymentTransaction(this.callerAddress, this.fee, this.linkedSmartContract);
+    trx.setLinkedSmartContractAddress(contractAddress);
+    trx.setAddress(this.address);
+    trx.timestamp = this.timestamp;
+    return trx;
   }
 
 }

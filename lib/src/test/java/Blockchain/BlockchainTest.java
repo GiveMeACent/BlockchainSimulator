@@ -101,7 +101,8 @@ public class BlockchainTest {
     List<Transaction> expectedFirstBlockTransaction = List.of(firstTransaction, firstTransaction);
     List<Transaction> expectedSecondBlockTransaction = List.of(firstTransaction);
 
-    assertEquals(expectedFirstBlockTransaction, firstBlockTransactions);
+    for (int i = 0; i < expectedFirstBlockTransaction.size(); i++)
+      assertEquals(expectedFirstBlockTransaction.get(i).getAddress(), firstBlockTransactions.get(i).getAddress());
 
     firstNode.setBalance(1000);
     secondNode.setBalance(20);
@@ -116,14 +117,16 @@ public class BlockchainTest {
 
     firstBlockTransactions = blockchain.getTransactions(0);
 
-    assertEquals(expectedFirstBlockTransaction, firstBlockTransactions);
+    for (int i = 0; i < expectedFirstBlockTransaction.size(); i++)
+      assertEquals(expectedFirstBlockTransaction.get(i).getAddress(), firstBlockTransactions.get(i).getAddress());
 
     assertEquals(true, blockchain.requestTransactionRegistration(firstTransaction));
 
     secondBlockTransactions = blockchain.getTransactions(1);
     expectedSecondBlockTransaction = List.of(firstTransaction);
 
-    assertEquals(expectedSecondBlockTransaction, secondBlockTransactions);
+    for (int i = 0; i < expectedSecondBlockTransaction.size(); i++)
+      assertEquals(expectedSecondBlockTransaction.get(i).getAddress(), secondBlockTransactions.get(i).getAddress());
 
     // Should correctly refuse an invalid deployment transaction
 
@@ -141,7 +144,7 @@ public class BlockchainTest {
     firstNode.setBalance(21);
     assertEquals(true, blockchain.requestTransactionRegistration(fifthTransaction));
     secondBlockTransactions = blockchain.getTransactions(1);
-    assertEquals(fifthTransaction, secondBlockTransactions.getLast());
+    assertEquals(fifthTransaction.getAddress(), secondBlockTransactions.getLast().getAddress());
     assertEquals(fifthTransaction.getLinkedSmartContract(), validContract);
     assertEquals(0, firstNode.getBalance());
 

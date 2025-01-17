@@ -63,4 +63,13 @@ public class SmartContractTransaction extends Transaction {
     return TransactionType.SMART_CONTRACT_EXECUTE;
   }
 
+  @Override
+  public Transaction clone() {
+    Transaction trx = new SmartContractTransaction(this.callerAddress, this.contractAddress, this.fee, this.methodName,
+        this.parameters, this.args);
+    trx.setLinkedSmartContractAddress(contractAddress);
+    trx.setAddress(this.address);
+    trx.timestamp = this.timestamp;
+    return trx;
+  }
 }

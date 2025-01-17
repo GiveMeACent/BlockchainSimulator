@@ -1,5 +1,6 @@
 package Block;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 public class Block {
   private final String previousBlockHash;
   private LinkedHashMap<String, Transaction> transactions;
-  private final LocalDate timestamp;
+  private LocalDate timestamp;
   private String hash;
   private final Integer height;
   private Integer currentSize;
@@ -44,11 +45,14 @@ public class Block {
   }
 
   public Transaction getTransaction(String transactionId) {
-    return transactions.get(transactionId);
+    return transactions.get(transactionId).clone();
   }
 
   public List<Transaction> getAllTransactions() {
-    return this.transactions.values().stream().collect(Collectors.toList());
+    List<Transaction> transactions = new ArrayList<Transaction>();
+    for (int i = 0; i < this.transactions.values().size(); i++)
+      transactions.add(this.transactions.values().stream().collect(Collectors.toList()).get(i).clone());
+    return transactions;
   }
 
   public List<String> getAllTransactionIds() {
@@ -84,6 +88,15 @@ public class Block {
 
     header = sb.toString();
     return header;
+  }
+
+  public Block clone() {
+    Block newBlock = new Block(hash, height);
+    for (int i = 0; i < transactions.size(); i++)
+      newBlock.addTransaction((transactions.values().stream().collect(Collectors.toList())).get(i).clone());
+    newBlock.timestamp = this.timestamp;
+    newBlock.currentSize = this.currentSize;
+    return newBlock;
   }
 
 }

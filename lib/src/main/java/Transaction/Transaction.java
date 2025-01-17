@@ -58,4 +58,6 @@ public abstract class Transaction {
 
   abstract public TransactionType getType();
 
+  abstract public Transaction clone();
+
 }

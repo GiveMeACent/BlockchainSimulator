@@ -64,4 +64,13 @@ public class MonetaryTransaction extends Transaction {
     return TransactionType.MONETARY;
   }
 
+  @Override
+  public Transaction clone() {
+    Transaction trx = new MonetaryTransaction(this.fee, this.callerAddress, this.recipientAddress,
+        this.amountToTransfer);
+    trx.setAddress(this.address);
+    trx.timestamp = this.timestamp;
+    return trx;
+  }
+
 }
