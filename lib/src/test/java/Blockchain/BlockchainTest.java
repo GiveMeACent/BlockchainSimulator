@@ -30,6 +30,7 @@ public class BlockchainTest {
 
   @Test
   void functionalityTest() {
+    // Setting up the context
     Blockchain blockchain = ProofOfStakeBlockchain.getInstance();
 
     Node firstNode = new SimpleNode();
@@ -57,12 +58,16 @@ public class BlockchainTest {
     thirdValidatorNode.putStake(50);
     fourthValidatorNode.putStake(60);
 
+    // Should correctly registrate a valid Monetary Transaction
+
     Transaction firstTransaction = new MonetaryTransaction(5, firstNodeAddress, secondNodeAddress, 5);
 
     assertEquals(true, blockchain.requestTransactionRegistration(firstTransaction));
     assertEquals(0, firstNode.getBalance());
     assertEquals(25, secondNode.getBalance());
     assertEquals(65, fourthValidatorNode.getStakeValue());
+
+    // Should correctly refuse an invalid monetary transaction
 
     firstNode.setBalance(10);
     secondNode.setBalance(20);
@@ -75,13 +80,21 @@ public class BlockchainTest {
 
     assertEquals(false, blockchain.requestTransactionRegistration(secondTransaction));
 
+    // Should correctly refuse an invalid monetary transaction due to unexistent
+    // recipient
+
     Transaction thirdTransaction = new MonetaryTransaction(5, firstNodeAddress, "FAKE_ADDRESS", 30);
 
     assertEquals(false, blockchain.requestTransactionRegistration(thirdTransaction));
 
+    // Should correctly refuse an invalid monetary transaction due to unexistent
+    // caller
+
     Transaction fourthTransaction = new MonetaryTransaction(5, "FAKE_ADDRESS", secondNodeAddress, 30);
 
     assertEquals(false, blockchain.requestTransactionRegistration(fourthTransaction));
+
+    // Should register transactions correctly
 
     List<Transaction> firstBlockTransactions = blockchain.getTransactions(0);
     List<Transaction> secondBlockTransactions;
@@ -112,6 +125,8 @@ public class BlockchainTest {
 
     assertEquals(expectedSecondBlockTransaction, secondBlockTransactions);
 
+    // Should correctly refuse an invalid deployment transaction
+
     SmartContractBase validContract = new ValidSmartContract();
     validContract.setPartiesAddresses(List.of(firstNodeAddress, secondNodeAddress));
 
@@ -121,6 +136,8 @@ public class BlockchainTest {
     Transaction fifthTransaction = new DeploymentTransaction(firstNodeAddress, 6, validContract);
     assertEquals(false, blockchain.requestTransactionRegistration(fifthTransaction));
 
+    // Should correctly register a valid deployment transaction
+
     firstNode.setBalance(21);
     assertEquals(true, blockchain.requestTransactionRegistration(fifthTransaction));
     secondBlockTransactions = blockchain.getTransactions(1);
@@ -128,11 +145,18 @@ public class BlockchainTest {
     assertEquals(fifthTransaction.getLinkedSmartContract(), validContract);
     assertEquals(0, firstNode.getBalance());
 
+    // Should correctly register a valid deployment transaction with an invalid
+    // smart contract associated
+
     firstNode.setBalance(250);
     secondNode.setBalance(20);
     SmartContractBase maliciousContract = new MaliciousSmartContract();
+    maliciousContract.setPartiesAddresses(List.of(firstNodeAddress, secondNodeAddress));
     Transaction sixthTransaction = new DeploymentTransaction(firstNodeAddress, 5, maliciousContract);
     assertEquals(true, blockchain.requestTransactionRegistration(sixthTransaction));
+
+    // Should correctly register a valid smart contract transaction with an valid
+    // smart contract associated
 
     firstNode.setBalance(20);
     secondNode.setBalance(30);
@@ -151,13 +175,16 @@ public class BlockchainTest {
     assertEquals(10, firstNode.getBalance());
     assertEquals(40, secondNode.getBalance());
 
+    // Should correctly refuse a valid smart contract transaction with an invalid
+    // smart contract associated
+
     Transaction eighthTransaction = new SmartContractTransaction(firstNodeAddress,
         sixthTransaction.getLinkedSmartContractAddress(), 5, "transferToB", paramTypes, args);
 
-    assertEquals(true,
+    assertEquals(false,
         blockchain.requestTransactionRegistration(eighthTransaction));
 
-    assertEquals(5, firstNode.getBalance());
+    assertEquals(10, firstNode.getBalance());
     assertEquals(40, secondNode.getBalance());
 
   }

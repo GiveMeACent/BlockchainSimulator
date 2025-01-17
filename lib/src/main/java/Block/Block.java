@@ -66,6 +66,7 @@ public class Block {
   public String addTransaction(Transaction transaction) {
     String transactionAddress = HashUtils.generateRandomAddress();
     transaction.setAddress(transactionAddress);
+    transaction.setTimeStamp();
     this.transactions.put(transactionAddress, transaction);
     this.currentSize += 1;
     return transactionAddress;

@@ -154,7 +154,6 @@ public class ProofOfStakeBlockchain implements Blockchain {
       case TransactionType.MONETARY:
         Node recipientNode = nodesAddresses.get(transaction.getRecipientAddress());
         recipientNode.setBalance(recipientNode.getBalance() + transaction.getAmountToTransfer());
-        transaction.setTimeStamp();
         break;
 
       case TransactionType.SMART_CONTRACT_DEPLOY:
