@@ -16,11 +16,6 @@ public class MonetaryTransaction extends Transaction {
   }
 
   @Override
-  public String getCallerAddress() {
-    return this.callerAddress;
-  }
-
-  @Override
   public String getRecipientAddress() {
     return this.recipientAddress;
   }
